@@ -264,7 +264,7 @@ const { title } = Astro.props;
 				<div class="relative px-4 sm:px-6 lg:px-8 py-12">
 					<div class="max-w-7xl mx-auto">
 						<!-- Main footer content -->
-						<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+						<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-8">
 							<!-- Brand section -->
 							<div class="lg:col-span-1">
 								<a href="/" class="flex items-center space-x-2 mb-4 hover:opacity-80 transition-opacity duration-200">
@@ -277,7 +277,7 @@ const { title } = Astro.props;
 									Professional 1RM calculator using scientifically proven formulas for accurate strength training calculations.
 								</p>
 								<!-- Social links -->
-								<div class="flex space-x-4">
+								<div class="flex space-x-3 sm:space-x-4">
 									<a href="#" class="w-8 h-8 bg-slate-700 hover:bg-purple-600 rounded-lg flex items-center justify-center transition-colors duration-200" aria-label="Follow us on Twitter">
 										<svg class="w-4 h-4 text-slate-300" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
 											<path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
@@ -330,21 +330,44 @@ const { title } = Astro.props;
 							</div>
 						</div>
 
-						<!-- Newsletter signup -->
-						<div class="bg-gradient-to-r from-purple-900/30 to-pink-900/30 rounded-2xl p-6 mb-8 border border-purple-500/20">
-							<div class="max-w-md mx-auto text-center">
-								<h3 class="text-white font-semibold mb-2">Stay Updated</h3>
-								<p class="text-slate-400 text-sm mb-4">Get the latest fitness calculators and training tips</p>
-								<div class="flex gap-2">
-									<input 
-										type="email" 
-										placeholder="Enter your email" 
-										class="flex-1 px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+						<!-- Newsletter signup - Mobile Optimized -->
+						<div class="bg-gradient-to-r from-purple-900/30 to-pink-900/30 rounded-2xl p-4 sm:p-6 mb-8 border border-purple-500/20">
+							<div class="max-w-lg mx-auto text-center">
+								<h3 class="text-white font-semibold text-lg sm:text-xl mb-2">Stay Updated</h3>
+								<p class="text-slate-400 text-sm sm:text-base mb-4 sm:mb-6">Get the latest fitness calculators and training tips</p>
+								
+								<!-- Mobile-first form layout -->
+								<form class="space-y-3 sm:space-y-0 sm:flex sm:gap-3" id="newsletter-form">
+									<div class="flex-1">
+										<label for="newsletter-email" class="sr-only">Email address</label>
+										<input 
+											type="email" 
+											id="newsletter-email"
+											name="email"
+											placeholder="Enter your email address" 
+											class="w-full px-4 py-3 sm:py-2.5 bg-slate-700/80 backdrop-blur-sm border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none text-sm sm:text-base transition-all duration-200"
+											required
+											aria-describedby="newsletter-help"
+										>
+									</div>
+									<button 
+										type="submit"
+										class="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 active:from-purple-800 active:to-pink-800 text-white px-6 py-3 sm:py-2.5 rounded-lg transition-all duration-200 text-sm sm:text-base font-medium shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-800"
+										aria-label="Subscribe to newsletter"
 									>
-									<button class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium">
-										Subscribe
+										<span class="flex items-center justify-center gap-2">
+											<span>Subscribe</span>
+											<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+											</svg>
+										</span>
 									</button>
-								</div>
+								</form>
+								
+								<!-- Help text -->
+								<p id="newsletter-help" class="text-xs text-slate-500 mt-2 sm:mt-3">
+									We respect your privacy. Unsubscribe at any time.
+								</p>
 							</div>
 						</div>
 
@@ -368,6 +391,77 @@ const { title } = Astro.props;
 		</div>
 
 		<script>
+			// Newsletter form functionality
+			document.addEventListener('DOMContentLoaded', function() {
+				const newsletterForm = document.getElementById('newsletter-form');
+				const emailInput = document.getElementById('newsletter-email');
+				const submitButton = newsletterForm?.querySelector('button[type="submit"]');
+				const originalButtonText = submitButton?.innerHTML;
+				
+				if (newsletterForm && emailInput && submitButton) {
+					newsletterForm.addEventListener('submit', function(e) {
+						e.preventDefault();
+						
+						const email = emailInput.value.trim();
+						if (!email || !isValidEmail(email)) {
+							showFeedback('Please enter a valid email address', 'error');
+							return;
+						}
+						
+						// Show loading state
+						submitButton.disabled = true;
+						submitButton.innerHTML = `
+							<span class="flex items-center justify-center gap-2">
+								<span>Subscribing...</span>
+								<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+									<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+									<path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+								</svg>
+							</span>
+						`;
+						
+						// Simulate API call (replace with actual newsletter service)
+						setTimeout(() => {
+							showFeedback('Thank you for subscribing! Check your email for confirmation.', 'success');
+							emailInput.value = '';
+							submitButton.disabled = false;
+							submitButton.innerHTML = originalButtonText;
+						}, 1500);
+					});
+				}
+				
+				function isValidEmail(email) {
+					return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+				}
+				
+				function showFeedback(message, type) {
+					// Remove existing feedback
+					const existingFeedback = document.querySelector('.newsletter-feedback');
+					if (existingFeedback) {
+						existingFeedback.remove();
+					}
+					
+					// Create feedback element
+					const feedback = document.createElement('div');
+					feedback.className = `newsletter-feedback mt-3 p-3 rounded-lg text-sm font-medium ${
+						type === 'success' 
+							? 'bg-green-500/20 text-green-300 border border-green-500/30' 
+							: 'bg-red-500/20 text-red-300 border border-red-500/30'
+					}`;
+					feedback.textContent = message;
+					
+					// Insert after the form
+					newsletterForm.parentNode.insertBefore(feedback, newsletterForm.nextSibling);
+					
+					// Auto-remove after 5 seconds
+					setTimeout(() => {
+						if (feedback.parentNode) {
+							feedback.remove();
+						}
+					}, 5000);
+				}
+			});
+			
 			// Mobile menu functionality
 			document.addEventListener('DOMContentLoaded', function() {
 				const mobileMenuBtn = document.getElementById('mobile-menu-btn');
