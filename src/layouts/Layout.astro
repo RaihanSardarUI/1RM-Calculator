@@ -88,6 +88,29 @@ const { title } = Astro.props;
 			/* Loading state */
 			.loading-fade { opacity: 0; animation: fadeIn 0.3s ease-in-out forwards; }
 			@keyframes fadeIn { to { opacity: 1; } }
+			
+			/* Mobile menu animations - avoid forced reflows */
+			.mobile-menu-opening {
+				max-height: 300px;
+				opacity: 1;
+				transform: translateY(0);
+			}
+			.mobile-menu-closing {
+				max-height: 0;
+				opacity: 0;
+				transform: translateY(-10px);
+			}
+			#mobile-menu {
+				overflow: hidden;
+				max-height: 0;
+				opacity: 0;
+				transform: translateY(-10px);
+			}
+			#mobile-menu:not(.hidden) {
+				max-height: 300px;
+				opacity: 1;
+				transform: translateY(0);
+			}
 		</style>
 		
 		<!-- Canonical URL -->
@@ -353,46 +376,60 @@ const { title } = Astro.props;
 				const closeIcon = document.getElementById('close-icon');
 
 		if (mobileMenuBtn && mobileMenu && hamburgerIcon && closeIcon) {
+			// Add CSS classes for smooth transitions
+			mobileMenu.style.transition = 'all 0.3s ease-in-out';
+			
 			mobileMenuBtn.addEventListener('click', function() {
-				// Toggle menu visibility
+				// Toggle menu visibility using classes instead of direct style manipulation
 				const isOpen = !mobileMenu.classList.contains('hidden');
-				mobileMenu.classList.toggle('hidden');
 				
-				// Update aria-expanded attribute
-				mobileMenuBtn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+				if (isOpen) {
+					// Closing menu
+					mobileMenu.classList.add('mobile-menu-closing');
+					mobileMenuBtn.setAttribute('aria-expanded', 'false');
+					
+					// Use requestAnimationFrame to avoid forced reflow
+					requestAnimationFrame(() => {
+						setTimeout(() => {
+							mobileMenu.classList.add('hidden');
+							mobileMenu.classList.remove('mobile-menu-closing');
+						}, 300);
+					});
+				} else {
+					// Opening menu
+					mobileMenu.classList.remove('hidden');
+					mobileMenu.classList.add('mobile-menu-opening');
+					mobileMenuBtn.setAttribute('aria-expanded', 'true');
+					
+					// Use requestAnimationFrame to avoid forced reflow
+					requestAnimationFrame(() => {
+						setTimeout(() => {
+							mobileMenu.classList.remove('mobile-menu-opening');
+						}, 300);
+					});
+				}
 				
 				// Toggle icons
 				hamburgerIcon.classList.toggle('hidden');
 				closeIcon.classList.toggle('hidden');
-						
-						// Add smooth animation
-						if (!mobileMenu.classList.contains('hidden')) {
-							mobileMenu.style.maxHeight = '0px';
-							mobileMenu.style.opacity = '0';
-							mobileMenu.style.transform = 'translateY(-10px)';
-							mobileMenu.style.transition = 'all 0.3s ease-in-out';
-							
-							// Trigger animation
-							setTimeout(() => {
-								mobileMenu.style.maxHeight = '300px';
-								mobileMenu.style.opacity = '1';
-								mobileMenu.style.transform = 'translateY(0)';
-							}, 10);
-						} else {
-							mobileMenu.style.maxHeight = '0px';
-							mobileMenu.style.opacity = '0';
-							mobileMenu.style.transform = 'translateY(-10px)';
-						}
-					});
+			});
 
 			// Close mobile menu when clicking on links
 			const mobileMenuLinks = mobileMenu.querySelectorAll('a, button');
 			mobileMenuLinks.forEach(link => {
 				link.addEventListener('click', function() {
-					mobileMenu.classList.add('hidden');
+					// Use same pattern to avoid forced reflow
+					mobileMenu.classList.add('mobile-menu-closing');
 					mobileMenuBtn.setAttribute('aria-expanded', 'false');
 					hamburgerIcon.classList.remove('hidden');
 					closeIcon.classList.add('hidden');
+					
+					requestAnimationFrame(() => {
+						setTimeout(() => {
+							mobileMenu.classList.add('hidden');
+							mobileMenu.classList.remove('mobile-menu-closing');
+						}, 300);
+					});
 				});
 			});
 
@@ -402,17 +439,27 @@ const { title } = Astro.props;
 						const isClickOnButton = mobileMenuBtn.contains(event.target);
 						
 						if (!isClickInsideMenu && !isClickOnButton && !mobileMenu.classList.contains('hidden')) {
-							mobileMenu.classList.add('hidden');
+							// Use same pattern to avoid forced reflow
+							mobileMenu.classList.add('mobile-menu-closing');
 							mobileMenuBtn.setAttribute('aria-expanded', 'false');
 							hamburgerIcon.classList.remove('hidden');
 							closeIcon.classList.add('hidden');
+							
+							requestAnimationFrame(() => {
+								setTimeout(() => {
+									mobileMenu.classList.add('hidden');
+									mobileMenu.classList.remove('mobile-menu-closing');
+								}, 300);
+							});
 						}
 					});
 
 					// Close mobile menu on window resize to desktop size
 					window.addEventListener('resize', function() {
 						if (window.innerWidth >= 768) { // md breakpoint
+							// Instant close on resize, no animation needed
 							mobileMenu.classList.add('hidden');
+							mobileMenu.classList.remove('mobile-menu-opening', 'mobile-menu-closing');
 							mobileMenuBtn.setAttribute('aria-expanded', 'false');
 							hamburgerIcon.classList.remove('hidden');
 							closeIcon.classList.add('hidden');
