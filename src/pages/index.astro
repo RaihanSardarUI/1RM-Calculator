@@ -4,7 +4,20 @@ import OneRMCalculator from '../components/OneRMCalculator.astro';
 import HomePageContent from '../components/HomePageContent.astro';
 ---
 
-<Layout title="1RM Calculator - Calculate Your One-Rep Max">
+<Layout title="1RM Calculator - Calculate Your One Rep Max (100%)">
 	<OneRMCalculator />
+	
+	<!-- Banner Image -->
+	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+		<div class="flex justify-center">
+			<img 
+				src="/One Rep Max Calculator.webp" 
+				alt="One Rep Max Calculator" 
+				class="max-w-full h-auto rounded-xl shadow-lg border border-slate-700/50 hover:shadow-xl transition-shadow duration-300"
+				loading="lazy"
+			/>
+		</div>
+	</div>
+	
 	<HomePageContent />
 </Layout>
