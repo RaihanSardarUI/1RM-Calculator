@@ -1,0 +1,302 @@
+---
+// 1RM Calculator Component
+---
+
+<div class="max-w-6xl mx-auto">
+	<div class="grid lg:grid-cols-2 gap-8">
+		<!-- Calculator Input Section -->
+		<div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-slate-700/50 shadow-2xl">
+			<h2 class="text-2xl font-semibold mb-6 text-purple-300">Calculate Your 1RM</h2>
+			
+			<form id="rm-calculator-form" class="space-y-6">
+				<!-- Exercise Selection -->
+				<div>
+					<label for="exercise" class="block text-sm font-medium text-slate-300 mb-2">
+						Exercise
+					</label>
+					<select id="exercise" class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200">
+						<option value="bench-press">Bench Press</option>
+						<option value="squat">Squat</option>
+						<option value="deadlift">Deadlift</option>
+						<option value="overhead-press">Overhead Press</option>
+						<option value="other">Other</option>
+					</select>
+				</div>
+
+				<!-- Weight Input -->
+				<div>
+					<label for="weight" class="block text-sm font-medium text-slate-300 mb-2">
+						Weight Lifted
+					</label>
+					<div class="flex gap-2">
+						<input 
+							type="number" 
+							id="weight" 
+							placeholder="Enter weight" 
+							step="0.5"
+							min="1"
+							class="flex-1 px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+							required
+						>
+						<select id="unit" class="px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200">
+							<option value="lbs">lbs</option>
+							<option value="kg">kg</option>
+						</select>
+					</div>
+				</div>
+
+				<!-- Reps Input -->
+				<div>
+					<label for="reps" class="block text-sm font-medium text-slate-300 mb-2">
+						Repetitions Performed
+					</label>
+					<input 
+						type="number" 
+						id="reps" 
+						placeholder="Enter reps (1-15)" 
+						min="1"
+						max="15"
+						class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+						required
+					>
+				</div>
+
+				<!-- Formula Selection -->
+				<div>
+					<label for="formula" class="block text-sm font-medium text-slate-300 mb-2">
+						Formula
+					</label>
+					<select id="formula" class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200">
+						<option value="epley">Epley (Most Common)</option>
+						<option value="brzycki">Brzycki</option>
+						<option value="lombardi">Lombardi</option>
+						<option value="oconner">O'Conner</option>
+						<option value="all">Compare All Formulas</option>
+					</select>
+				</div>
+
+				<!-- Buttons -->
+				<div class="flex gap-3 pt-4">
+					<button 
+						type="submit"
+						class="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
+					>
+						Calculate 1RM
+					</button>
+					<button 
+						type="button"
+						id="clear-btn"
+						class="px-6 py-3 bg-slate-600 hover:bg-slate-500 text-white font-semibold rounded-lg transition-all duration-200"
+					>
+						Clear
+					</button>
+				</div>
+			</form>
+		</div>
+
+		<!-- Results Section -->
+		<div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-slate-700/50 shadow-2xl">
+			<h2 class="text-2xl font-semibold mb-6 text-purple-300">Results</h2>
+			
+			<div id="results-container" class="hidden">
+				<!-- 1RM Results -->
+				<div id="rm-results" class="mb-8">
+					<h3 class="text-lg font-medium text-slate-200 mb-4">Your 1RM</h3>
+					<div id="rm-display" class="space-y-3">
+						<!-- Results will be populated by JavaScript -->
+					</div>
+				</div>
+
+				<!-- Percentage Breakdown -->
+				<div id="percentage-breakdown" class="mb-8">
+					<h3 class="text-lg font-medium text-slate-200 mb-4">Training Percentages</h3>
+					<div class="grid grid-cols-2 gap-3 text-sm">
+						<div class="bg-slate-700/50 rounded-lg p-3">
+							<div class="text-slate-400">95%</div>
+							<div id="percent-95" class="text-white font-semibold">-</div>
+						</div>
+						<div class="bg-slate-700/50 rounded-lg p-3">
+							<div class="text-slate-400">90%</div>
+							<div id="percent-90" class="text-white font-semibold">-</div>
+						</div>
+						<div class="bg-slate-700/50 rounded-lg p-3">
+							<div class="text-slate-400">85%</div>
+							<div id="percent-85" class="text-white font-semibold">-</div>
+						</div>
+						<div class="bg-slate-700/50 rounded-lg p-3">
+							<div class="text-slate-400">80%</div>
+							<div id="percent-80" class="text-white font-semibold">-</div>
+						</div>
+						<div class="bg-slate-700/50 rounded-lg p-3">
+							<div class="text-slate-400">75%</div>
+							<div id="percent-75" class="text-white font-semibold">-</div>
+						</div>
+						<div class="bg-slate-700/50 rounded-lg p-3">
+							<div class="text-slate-400">70%</div>
+							<div id="percent-70" class="text-white font-semibold">-</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Rep Range Calculator -->
+				<div id="rep-range-calculator">
+					<h3 class="text-lg font-medium text-slate-200 mb-4">Rep Range Guide</h3>
+					<div class="space-y-2 text-sm">
+						<div class="flex justify-between items-center py-2 px-3 bg-slate-700/30 rounded">
+							<span class="text-slate-300">1-3 reps (90-100%)</span>
+							<span id="range-1-3" class="text-white font-semibold">-</span>
+						</div>
+						<div class="flex justify-between items-center py-2 px-3 bg-slate-700/30 rounded">
+							<span class="text-slate-300">4-6 reps (80-90%)</span>
+							<span id="range-4-6" class="text-white font-semibold">-</span>
+						</div>
+						<div class="flex justify-between items-center py-2 px-3 bg-slate-700/30 rounded">
+							<span class="text-slate-300">8-12 reps (65-80%)</span>
+							<span id="range-8-12" class="text-white font-semibold">-</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="no-results" class="text-center text-slate-400 py-12">
+				<div class="text-6xl mb-4">💪</div>
+				<p>Enter your lift details to calculate your 1RM</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- Information Cards -->
+	<div class="mt-12 grid md:grid-cols-3 gap-6">
+		<div class="bg-slate-800/30 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
+			<div class="text-purple-400 text-2xl mb-3">📊</div>
+			<h3 class="text-lg font-semibold text-white mb-2">Accurate Formulas</h3>
+			<p class="text-slate-300 text-sm">Uses proven scientific formulas including Epley, Brzycki, Lombardi, and O'Conner methods.</p>
+		</div>
+		<div class="bg-slate-800/30 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
+			<div class="text-purple-400 text-2xl mb-3">🎯</div>
+			<h3 class="text-lg font-semibold text-white mb-2">Training Percentages</h3>
+			<p class="text-slate-300 text-sm">Get precise training loads for different rep ranges and intensity zones.</p>
+		</div>
+		<div class="bg-slate-800/30 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
+			<div class="text-purple-400 text-2xl mb-3">⚡</div>
+			<h3 class="text-lg font-semibold text-white mb-2">Instant Results</h3>
+			<p class="text-slate-300 text-sm">Real-time calculations with beautiful, easy-to-read results display.</p>
+		</div>
+	</div>
+</div>
+
+<script>
+	// 1RM Calculation Formulas
+	const formulas = {
+		epley: (weight, reps) => weight * (1 + reps / 30),
+		brzycki: (weight, reps) => weight * (36 / (37 - reps)),
+		lombardi: (weight, reps) => weight * Math.pow(reps, 0.10),
+		oconner: (weight, reps) => weight * (1 + reps / 40)
+	};
+
+	// Format number to 1 decimal place
+	const formatWeight = (weight) => Math.round(weight * 10) / 10;
+
+	// Calculate 1RM using specified formula
+	function calculate1RM(weight, reps, formula) {
+		if (reps === 1) return weight;
+		return formulas[formula](weight, reps);
+	}
+
+	// Update results display
+	function updateResults(weight, reps, selectedFormula, unit) {
+		const resultsContainer = document.getElementById('results-container');
+		const noResults = document.getElementById('no-results');
+		const rmDisplay = document.getElementById('rm-display');
+
+		// Show results container
+		resultsContainer.classList.remove('hidden');
+		noResults.classList.add('hidden');
+
+		// Calculate and display 1RM results
+		rmDisplay.innerHTML = '';
+		
+		if (selectedFormula === 'all') {
+			// Show all formulas
+			Object.keys(formulas).forEach(formulaName => {
+				const rm = calculate1RM(weight, reps, formulaName);
+				const div = document.createElement('div');
+				div.className = 'flex justify-between items-center py-2 px-3 bg-slate-700/50 rounded-lg';
+				div.innerHTML = `
+					<span class="text-slate-300 capitalize">${formulaName}</span>
+					<span class="text-white font-semibold text-lg">${formatWeight(rm)} ${unit}</span>
+				`;
+				rmDisplay.appendChild(div);
+			});
+		} else {
+			// Show single formula result
+			const rm = calculate1RM(weight, reps, selectedFormula);
+			const div = document.createElement('div');
+			div.className = 'text-center p-4 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-lg border border-purple-500/30';
+			div.innerHTML = `
+				<div class="text-3xl font-bold text-white mb-1">${formatWeight(rm)} ${unit}</div>
+				<div class="text-slate-300 capitalize">${selectedFormula} Formula</div>
+			`;
+			rmDisplay.appendChild(div);
+		}
+
+		// Use the primary formula (first one if "all" is selected) for percentages
+		const primaryRM = selectedFormula === 'all' 
+			? calculate1RM(weight, reps, 'epley')
+			: calculate1RM(weight, reps, selectedFormula);
+
+		// Update percentage breakdown
+		const percentages = [95, 90, 85, 80, 75, 70];
+		percentages.forEach(percent => {
+			const element = document.getElementById(`percent-${percent}`);
+			const value = formatWeight(primaryRM * (percent / 100));
+			element.textContent = `${value} ${unit}`;
+		});
+
+		// Update rep range guide
+		document.getElementById('range-1-3').textContent = `${formatWeight(primaryRM * 0.90)}-${formatWeight(primaryRM)} ${unit}`;
+		document.getElementById('range-4-6').textContent = `${formatWeight(primaryRM * 0.80)}-${formatWeight(primaryRM * 0.90)} ${unit}`;
+		document.getElementById('range-8-12').textContent = `${formatWeight(primaryRM * 0.65)}-${formatWeight(primaryRM * 0.80)} ${unit}`;
+	}
+
+	// Form submission handler
+	document.getElementById('rm-calculator-form').addEventListener('submit', function(e) {
+		e.preventDefault();
+		
+		const weight = parseFloat(document.getElementById('weight').value);
+		const reps = parseInt(document.getElementById('reps').value);
+		const formula = document.getElementById('formula').value;
+		const unit = document.getElementById('unit').value;
+
+		// Validation
+		if (!weight || !reps || weight <= 0 || reps <= 0 || reps > 15) {
+			alert('Please enter valid weight and reps (1-15)');
+			return;
+		}
+
+		// Update results
+		updateResults(weight, reps, formula, unit);
+	});
+
+	// Clear button handler
+	document.getElementById('clear-btn').addEventListener('click', function() {
+		document.getElementById('rm-calculator-form').reset();
+		document.getElementById('results-container').classList.add('hidden');
+		document.getElementById('no-results').classList.remove('hidden');
+	});
+
+	// Real-time calculation on input change
+	const inputs = ['weight', 'reps', 'formula', 'unit'];
+	inputs.forEach(inputId => {
+		document.getElementById(inputId).addEventListener('input', function() {
+			const weight = parseFloat(document.getElementById('weight').value);
+			const reps = parseInt(document.getElementById('reps').value);
+			const formula = document.getElementById('formula').value;
+			const unit = document.getElementById('unit').value;
+
+			if (weight && reps && weight > 0 && reps > 0 && reps <= 15) {
+				updateResults(weight, reps, formula, unit);
+			}
+		});
+	});
+</script>
