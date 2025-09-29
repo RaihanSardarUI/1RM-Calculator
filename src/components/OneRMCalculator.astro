@@ -2,55 +2,57 @@
 // 1RM Calculator Component
 ---
 
-<div class="max-w-6xl mx-auto">
-	<div class="grid lg:grid-cols-2 gap-8">
-		<!-- Calculator Input Section -->
-		<div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-slate-700/50 shadow-2xl">
-			<h2 class="text-2xl font-semibold mb-6 text-purple-300">Calculate Your 1RM</h2>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+	<div class="grid lg:grid-cols-2 gap-6 lg:gap-8">
+		<!-- Calculator Input Section - Mobile Optimized -->
+		<div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-4 sm:p-6 lg:p-8 border border-slate-700/50 shadow-2xl">
+			<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-purple-300 text-center lg:text-left">Calculate Your 1RM</h2>
 			
-			<form id="rm-calculator-form" class="space-y-6">
+			<form id="rm-calculator-form" class="space-y-4 sm:space-y-6">
 				<!-- Exercise Selection -->
 				<div>
-					<label for="exercise" class="block text-sm font-medium text-slate-300 mb-2">
+					<label for="exercise" class="block text-sm sm:text-base font-medium text-slate-300 mb-2">
 						Exercise
 					</label>
-					<select id="exercise" class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200">
-						<option value="bench-press">Bench Press</option>
-						<option value="squat">Squat</option>
-						<option value="deadlift">Deadlift</option>
-						<option value="overhead-press">Overhead Press</option>
-						<option value="other">Other</option>
+					<select id="exercise" class="w-full px-4 py-3 sm:py-3.5 bg-slate-700/80 backdrop-blur-sm border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all duration-200 text-sm sm:text-base appearance-none cursor-pointer">
+						<option value="bench-press">🏋️ Bench Press</option>
+						<option value="squat">🦵 Squat</option>
+						<option value="deadlift">💪 Deadlift</option>
+						<option value="overhead-press">🔥 Overhead Press</option>
+						<option value="other">⚡ Other Exercise</option>
 					</select>
 				</div>
 
 				<!-- Weight Input -->
 				<div>
-					<label for="weight" class="block text-sm font-medium text-slate-300 mb-2">
+					<label for="weight" class="block text-sm sm:text-base font-medium text-slate-300 mb-2">
 						Weight Lifted
 					</label>
-					<div class="flex gap-2">
+					<div class="flex gap-2 sm:gap-3">
 						<input 
 							type="number" 
 							id="weight" 
 							placeholder="Enter weight" 
 							step="0.5"
 							min="1"
-							class="flex-1 px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+							max="999"
+							class="flex-1 px-4 py-3 sm:py-3.5 bg-slate-700/80 backdrop-blur-sm border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all duration-200 text-sm sm:text-base"
 							required
 							aria-describedby="weight-help"
+							inputmode="decimal"
 						>
 						<label for="unit" class="sr-only">Weight unit</label>
-						<select id="unit" class="px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200" aria-label="Select weight unit">
+						<select id="unit" class="px-4 py-3 sm:py-3.5 bg-slate-700/80 backdrop-blur-sm border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all duration-200 text-sm sm:text-base min-w-[80px] cursor-pointer" aria-label="Select weight unit">
 							<option value="lbs">lbs</option>
 							<option value="kg">kg</option>
 						</select>
 					</div>
-					<p id="weight-help" class="text-xs text-slate-400 mt-1">Enter the weight you lifted and select the unit</p>
+					<p id="weight-help" class="text-xs sm:text-sm text-slate-400 mt-1.5">Enter the weight you lifted and select the unit</p>
 				</div>
 
 				<!-- Reps Input -->
 				<div>
-					<label for="reps" class="block text-sm font-medium text-slate-300 mb-2">
+					<label for="reps" class="block text-sm sm:text-base font-medium text-slate-300 mb-2">
 						Repetitions Performed
 					</label>
 					<input 
@@ -59,131 +61,155 @@
 						placeholder="Enter reps (1-15)" 
 						min="1"
 						max="15"
-						class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+						class="w-full px-4 py-3 sm:py-3.5 bg-slate-700/80 backdrop-blur-sm border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all duration-200 text-sm sm:text-base"
 						required
+						inputmode="numeric"
+						aria-describedby="reps-help"
 					>
+					<p id="reps-help" class="text-xs sm:text-sm text-slate-400 mt-1.5">Most accurate for 1-10 reps</p>
 				</div>
 
 				<!-- Formula Selection -->
 				<div>
-					<label for="formula" class="block text-sm font-medium text-slate-300 mb-2">
+					<label for="formula" class="block text-sm sm:text-base font-medium text-slate-300 mb-2">
 						Formula
 					</label>
-					<select id="formula" class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200">
-						<option value="epley">Epley (Most Common)</option>
-						<option value="brzycki">Brzycki</option>
-						<option value="lombardi">Lombardi</option>
-						<option value="oconner">O'Conner</option>
-						<option value="all">Compare All Formulas</option>
+					<select id="formula" class="w-full px-4 py-3 sm:py-3.5 bg-slate-700/80 backdrop-blur-sm border border-slate-600 rounded-lg text-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all duration-200 text-sm sm:text-base appearance-none cursor-pointer">
+						<option value="epley">📊 Epley (Most Common)</option>
+						<option value="brzycki">🎯 Brzycki (Conservative)</option>
+						<option value="lombardi">💪 Lombardi (Advanced)</option>
+						<option value="oconner">🔥 O'Conner (Beginner-Friendly)</option>
+						<option value="all">⚡ Compare All Formulas</option>
 					</select>
 				</div>
 
 				<!-- Buttons -->
-				<div class="flex gap-3 pt-4">
+				<div class="flex flex-col sm:flex-row gap-3 pt-2 sm:pt-4">
 					<button 
 						type="submit"
-						class="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
+						class="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 active:from-purple-800 active:to-pink-800 text-white font-semibold py-3.5 sm:py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-800"
+						id="calculate-btn"
 					>
-						Calculate 1RM
+						<span class="flex items-center justify-center gap-2">
+							<span>Calculate 1RM</span>
+							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+							</svg>
+						</span>
 					</button>
 					<button 
 						type="button"
 						id="clear-btn"
-						class="px-6 py-3 bg-slate-600 hover:bg-slate-500 text-white font-semibold rounded-lg transition-all duration-200"
+						class="w-full sm:w-auto px-6 py-3.5 sm:py-3 bg-slate-600/80 hover:bg-slate-500 active:bg-slate-700 text-white font-semibold rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-slate-800"
 					>
-						Clear
+						<span class="flex items-center justify-center gap-2">
+							<span>Clear</span>
+							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+							</svg>
+						</span>
 					</button>
 				</div>
 			</form>
 		</div>
 
-		<!-- Results Section -->
-		<div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-slate-700/50 shadow-2xl">
-			<h2 class="text-2xl font-semibold mb-6 text-purple-300">Results</h2>
+		<!-- Results Section - Mobile Optimized -->
+		<div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-4 sm:p-6 lg:p-8 border border-slate-700/50 shadow-2xl">
+			<h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-purple-300 text-center lg:text-left">Results</h2>
 			
 			<div id="results-container" class="hidden">
 				<!-- 1RM Results -->
-				<div id="rm-results" class="mb-8">
-					<h3 class="text-lg font-medium text-slate-200 mb-4">Your 1RM</h3>
-					<div id="rm-display" class="space-y-3">
+				<div id="rm-results" class="mb-6 sm:mb-8">
+					<h3 class="text-base sm:text-lg font-medium text-slate-200 mb-3 sm:mb-4">Your 1RM</h3>
+					<div id="rm-display" class="space-y-2 sm:space-y-3">
 						<!-- Results will be populated by JavaScript -->
 					</div>
 				</div>
 
 				<!-- Percentage Breakdown -->
-				<div id="percentage-breakdown" class="mb-8">
-					<h3 class="text-lg font-medium text-slate-200 mb-4">Training Percentages</h3>
-					<div class="grid grid-cols-2 gap-3 text-sm">
-						<div class="bg-slate-700/50 rounded-lg p-3">
-							<div class="text-slate-400">95%</div>
-							<div id="percent-95" class="text-white font-semibold">-</div>
+				<div id="percentage-breakdown" class="mb-6 sm:mb-8">
+					<h3 class="text-base sm:text-lg font-medium text-slate-200 mb-3 sm:mb-4">Training Percentages</h3>
+					<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 text-sm">
+						<div class="bg-slate-700/50 rounded-lg p-3 hover:bg-slate-700/70 transition-colors duration-200">
+							<div class="text-slate-400 text-xs sm:text-sm">95%</div>
+							<div id="percent-95" class="text-white font-semibold text-sm sm:text-base">-</div>
+							<div class="text-slate-500 text-xs mt-1">Max effort</div>
 						</div>
-						<div class="bg-slate-700/50 rounded-lg p-3">
-							<div class="text-slate-400">90%</div>
-							<div id="percent-90" class="text-white font-semibold">-</div>
+						<div class="bg-slate-700/50 rounded-lg p-3 hover:bg-slate-700/70 transition-colors duration-200">
+							<div class="text-slate-400 text-xs sm:text-sm">90%</div>
+							<div id="percent-90" class="text-white font-semibold text-sm sm:text-base">-</div>
+							<div class="text-slate-500 text-xs mt-1">Heavy singles</div>
 						</div>
-						<div class="bg-slate-700/50 rounded-lg p-3">
-							<div class="text-slate-400">85%</div>
-							<div id="percent-85" class="text-white font-semibold">-</div>
+						<div class="bg-slate-700/50 rounded-lg p-3 hover:bg-slate-700/70 transition-colors duration-200">
+							<div class="text-slate-400 text-xs sm:text-sm">85%</div>
+							<div id="percent-85" class="text-white font-semibold text-sm sm:text-base">-</div>
+							<div class="text-slate-500 text-xs mt-1">Strength</div>
 						</div>
-						<div class="bg-slate-700/50 rounded-lg p-3">
-							<div class="text-slate-400">80%</div>
-							<div id="percent-80" class="text-white font-semibold">-</div>
+						<div class="bg-slate-700/50 rounded-lg p-3 hover:bg-slate-700/70 transition-colors duration-200">
+							<div class="text-slate-400 text-xs sm:text-sm">80%</div>
+							<div id="percent-80" class="text-white font-semibold text-sm sm:text-base">-</div>
+							<div class="text-slate-500 text-xs mt-1">Power</div>
 						</div>
-						<div class="bg-slate-700/50 rounded-lg p-3">
-							<div class="text-slate-400">75%</div>
-							<div id="percent-75" class="text-white font-semibold">-</div>
+						<div class="bg-slate-700/50 rounded-lg p-3 hover:bg-slate-700/70 transition-colors duration-200">
+							<div class="text-slate-400 text-xs sm:text-sm">75%</div>
+							<div id="percent-75" class="text-white font-semibold text-sm sm:text-base">-</div>
+							<div class="text-slate-500 text-xs mt-1">Hypertrophy</div>
 						</div>
-						<div class="bg-slate-700/50 rounded-lg p-3">
-							<div class="text-slate-400">70%</div>
-							<div id="percent-70" class="text-white font-semibold">-</div>
+						<div class="bg-slate-700/50 rounded-lg p-3 hover:bg-slate-700/70 transition-colors duration-200">
+							<div class="text-slate-400 text-xs sm:text-sm">70%</div>
+							<div id="percent-70" class="text-white font-semibold text-sm sm:text-base">-</div>
+							<div class="text-slate-500 text-xs mt-1">Volume</div>
 						</div>
 					</div>
 				</div>
 
 				<!-- Rep Range Calculator -->
 				<div id="rep-range-calculator">
-					<h3 class="text-lg font-medium text-slate-200 mb-4">Rep Range Guide</h3>
+					<h3 class="text-base sm:text-lg font-medium text-slate-200 mb-3 sm:mb-4">Rep Range Guide</h3>
 					<div class="space-y-2 text-sm">
-						<div class="flex justify-between items-center py-2 px-3 bg-slate-700/30 rounded">
-							<span class="text-slate-300">1-3 reps (90-100%)</span>
-							<span id="range-1-3" class="text-white font-semibold">-</span>
+						<div class="flex flex-col sm:flex-row sm:justify-between sm:items-center py-3 px-3 sm:px-4 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-colors duration-200">
+							<span class="text-slate-300 text-sm sm:text-base">💪 Strength (1-3 reps)</span>
+							<span class="text-slate-400 text-xs sm:text-sm">90-100%</span>
+							<span id="range-1-3" class="text-white font-semibold text-sm sm:text-base mt-1 sm:mt-0">-</span>
 						</div>
-						<div class="flex justify-between items-center py-2 px-3 bg-slate-700/30 rounded">
-							<span class="text-slate-300">4-6 reps (80-90%)</span>
-							<span id="range-4-6" class="text-white font-semibold">-</span>
+						<div class="flex flex-col sm:flex-row sm:justify-between sm:items-center py-3 px-3 sm:px-4 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-colors duration-200">
+							<span class="text-slate-300 text-sm sm:text-base">🔥 Power (4-6 reps)</span>
+							<span class="text-slate-400 text-xs sm:text-sm">80-90%</span>
+							<span id="range-4-6" class="text-white font-semibold text-sm sm:text-base mt-1 sm:mt-0">-</span>
 						</div>
-						<div class="flex justify-between items-center py-2 px-3 bg-slate-700/30 rounded">
-							<span class="text-slate-300">8-12 reps (65-80%)</span>
-							<span id="range-8-12" class="text-white font-semibold">-</span>
+						<div class="flex flex-col sm:flex-row sm:justify-between sm:items-center py-3 px-3 sm:px-4 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-colors duration-200">
+							<span class="text-slate-300 text-sm sm:text-base">📈 Hypertrophy (8-12 reps)</span>
+							<span class="text-slate-400 text-xs sm:text-sm">65-80%</span>
+							<span id="range-8-12" class="text-white font-semibold text-sm sm:text-base mt-1 sm:mt-0">-</span>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<div id="no-results" class="text-center text-slate-400 py-12">
-				<div class="text-6xl mb-4">💪</div>
-				<p>Enter your lift details to calculate your 1RM</p>
+			<div id="no-results" class="text-center text-slate-400 py-8 sm:py-12">
+				<div class="text-4xl sm:text-6xl mb-3 sm:mb-4">💪</div>
+				<p class="text-sm sm:text-base">Enter your lift details to calculate your 1RM</p>
+				<p class="text-xs sm:text-sm text-slate-500 mt-2">Fill out the form to see your results</p>
 			</div>
 		</div>
 	</div>
 
-	<!-- Information Cards -->
-	<div class="mt-12 grid md:grid-cols-3 gap-6">
-		<div class="bg-slate-800/30 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
-			<div class="text-purple-400 text-2xl mb-3">📊</div>
-			<h3 class="text-lg font-semibold text-white mb-2">Accurate Formulas</h3>
-			<p class="text-slate-300 text-sm">Uses proven scientific formulas including Epley, Brzycki, Lombardi, and O'Conner methods.</p>
+	<!-- Information Cards - Mobile Optimized -->
+	<div class="mt-8 sm:mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+		<div class="bg-slate-800/30 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-slate-700/50 hover:bg-slate-800/40 hover:border-purple-500/30 transition-all duration-200 group">
+			<div class="text-purple-400 text-2xl mb-3 group-hover:scale-110 transition-transform duration-200">📊</div>
+			<h3 class="text-base sm:text-lg font-semibold text-white mb-2">Accurate Formulas</h3>
+			<p class="text-slate-300 text-sm leading-relaxed">Uses proven scientific formulas including Epley, Brzycki, Lombardi, and O'Conner methods.</p>
 		</div>
-		<div class="bg-slate-800/30 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
-			<div class="text-purple-400 text-2xl mb-3">🎯</div>
-			<h3 class="text-lg font-semibold text-white mb-2">Training Percentages</h3>
-			<p class="text-slate-300 text-sm">Get precise training loads for different rep ranges and intensity zones.</p>
+		<div class="bg-slate-800/30 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-slate-700/50 hover:bg-slate-800/40 hover:border-purple-500/30 transition-all duration-200 group">
+			<div class="text-purple-400 text-2xl mb-3 group-hover:scale-110 transition-transform duration-200">🎯</div>
+			<h3 class="text-base sm:text-lg font-semibold text-white mb-2">Training Percentages</h3>
+			<p class="text-slate-300 text-sm leading-relaxed">Get precise training loads for different rep ranges and intensity zones.</p>
 		</div>
-		<div class="bg-slate-800/30 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50">
-			<div class="text-purple-400 text-2xl mb-3">⚡</div>
-			<h3 class="text-lg font-semibold text-white mb-2">Instant Results</h3>
-			<p class="text-slate-300 text-sm">Real-time calculations with beautiful, easy-to-read results display.</p>
+		<div class="bg-slate-800/30 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-slate-700/50 hover:bg-slate-800/40 hover:border-purple-500/30 transition-all duration-200 group sm:col-span-2 lg:col-span-1">
+			<div class="text-purple-400 text-2xl mb-3 group-hover:scale-110 transition-transform duration-200">⚡</div>
+			<h3 class="text-base sm:text-lg font-semibold text-white mb-2">Instant Results</h3>
+			<p class="text-slate-300 text-sm leading-relaxed">Real-time calculations with beautiful, easy-to-read results display.</p>
 		</div>
 	</div>
 </div>
