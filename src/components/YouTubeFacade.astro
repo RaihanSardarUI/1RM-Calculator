@@ -1,0 +1,69 @@
+---
+// YouTube Facade Component - Loads only when clicked
+interface Props {
+	videoId: string;
+	title?: string;
+}
+
+const { videoId, title = "YouTube Video" } = Astro.props;
+---
+
+<div class="youtube-facade relative w-full h-0 pb-[56.25%] mb-6 rounded-lg overflow-hidden cursor-pointer group" data-video-id={videoId}>
+	<!-- Thumbnail -->
+	<img 
+		src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+		alt={title}
+		class="absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-80"
+		loading="lazy"
+	/>
+	
+	<!-- Play button overlay -->
+	<div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-all duration-300">
+		<div class="w-16 h-16 bg-red-600 hover:bg-red-700 rounded-full flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-all duration-300">
+			<svg class="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+				<path d="M8 5v14l11-7z"/>
+			</svg>
+		</div>
+	</div>
+	
+	<!-- Loading indicator (hidden by default) -->
+	<div class="loading-indicator absolute inset-0 flex items-center justify-center bg-black/50 hidden">
+		<div class="w-8 h-8 border-4 border-purple-400 border-t-transparent rounded-full animate-spin"></div>
+	</div>
+</div>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const facades = document.querySelectorAll('.youtube-facade');
+		
+		facades.forEach(facade => {
+			facade.addEventListener('click', function() {
+				const videoId = this.dataset.videoId;
+				const loadingIndicator = this.querySelector('.loading-indicator');
+				
+				// Show loading indicator
+				loadingIndicator.classList.remove('hidden');
+				
+				// Create iframe
+				const iframe = document.createElement('iframe');
+				iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+				iframe.title = 'YouTube video player';
+				iframe.frameBorder = '0';
+				iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+				iframe.allowFullscreen = true;
+				iframe.className = 'absolute top-0 left-0 w-full h-full';
+				
+				// Replace facade with iframe
+				this.innerHTML = '';
+				this.appendChild(iframe);
+				this.style.cursor = 'default';
+			});
+		});
+	});
+</script>
+
+<style>
+	.youtube-facade {
+		background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+	}
+</style>
